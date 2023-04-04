@@ -8,14 +8,26 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import './layout.css'
+import {
+  Routes,
+  Route,
+  useNavigate
+} from "react-router-dom";
+import  CreateArticle  from "../create-article"
 
 const { Header, Sider, Content } = Layout;
 
 const Container = () => {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const onClick = (e) => {
+    console.log(e);
+    navigate(`/admin/${e.key}`)
+  };
 
   return (
     <Layout style={{height: '100%'}}>
@@ -27,9 +39,9 @@ const Container = () => {
           defaultSelectedKeys={['1']}
           items={[
             {
-              key: '1',
+              key: 'article',
               icon: <UserOutlined />,
-              label: 'nav 1',
+              label: '发布文章',
             },
             {
               key: '2',
@@ -42,6 +54,7 @@ const Container = () => {
               label: 'nav 3',
             },
           ]}
+          onClick={onClick}
         />
       </Sider>
       <Layout className="site-layout">
@@ -59,7 +72,10 @@ const Container = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <Routes>
+            <Route path="article" element={<CreateArticle />}/>
+            <Route path="index" element={<>fdsa</>}/>
+          </Routes>
         </Content>
       </Layout>
     </Layout>
