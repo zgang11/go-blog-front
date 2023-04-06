@@ -49,8 +49,9 @@ const CreateArticle = () => {
     }, [])
     
     const props = {
+      maxCount: 1,
       name: 'file',
-      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      action: 'http://127.0.0.1:8081/api/v1/upload',
       headers: {
         authorization: 'authorization-text',
       },
@@ -59,9 +60,11 @@ const CreateArticle = () => {
           console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
+          console.log(info.file)
+          message.success(`上传成功`);
+          form.setFieldValue('ossUrl', info.file.response.imgurl)
         } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
+          message.error(`上传失败`);
         }
       },
     };
@@ -89,7 +92,7 @@ const CreateArticle = () => {
         rules={[
           {
             required: true,
-            message: '请输入您的用户名',
+            message: '请输入文章名称',
           },
         ]}
       >
@@ -102,7 +105,7 @@ const CreateArticle = () => {
         rules={[
           {
             required: true,
-            message: '请输入您的密码',
+            message: '请输入文章类型',
           },
         ]}
       >
@@ -117,7 +120,7 @@ const CreateArticle = () => {
         rules={[
           {
             required: true,
-            message: '请输入您的密码',
+            message: '请输入文章标签',
           },
         ]}
       >
@@ -130,7 +133,7 @@ const CreateArticle = () => {
         rules={[
           {
             required: true,
-            message: '请输入您的密码',
+            message: '请输入文章封面',
           },
         ]}
       >
@@ -145,7 +148,7 @@ const CreateArticle = () => {
         rules={[
           {
             required: true,
-            message: '请输入您的密码',
+            message: '请输入文章内容',
           },
         ]}
       >
