@@ -21,8 +21,12 @@ const router = createBrowserRouter([
     children:[
       {
         path: 'article',
-        element: <Login/>
-      }
+        name: 'article'
+      },
+      {
+        path: 'article-table',
+        name: 'article-table'
+      },
     ]
  },
  {

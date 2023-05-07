@@ -14,6 +14,7 @@ import {
   useNavigate
 } from "react-router-dom";
 import  CreateArticle  from "../create-article"
+import  ArticleTable  from "../article"
 
 const { Header, Sider, Content } = Layout;
 
@@ -30,7 +31,7 @@ const Container = () => {
   };
 
   return (
-    <Layout style={{height: '100%'}}>
+    <Layout style={{height: '100vh'}}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu
@@ -44,9 +45,9 @@ const Container = () => {
               label: '发布文章',
             },
             {
-              key: '2',
+              key: 'article-table',
               icon: <VideoCameraOutlined />,
-              label: 'nav 2',
+              label: '文章管理',
             },
             {
               key: '3',
@@ -74,7 +75,7 @@ const Container = () => {
         >
           <Routes>
             <Route path="article" element={<CreateArticle />}/>
-            <Route path="index" element={<>fdsa</>}/>
+            <Route path="article-table" element={<ArticleTable />}/>
           </Routes>
         </Content>
       </Layout>
