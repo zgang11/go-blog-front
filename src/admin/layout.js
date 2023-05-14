@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import  CreateArticle  from "../create-article"
 import  ArticleTable  from "../article"
+import Tag from "../tag"
 
 const { Header, Sider, Content } = Layout;
 
@@ -50,9 +51,9 @@ const Container = () => {
               label: '文章管理',
             },
             {
-              key: '3',
+              key: 'tag',
               icon: <UploadOutlined />,
-              label: 'nav 3',
+              label: '标签管理',
             },
           ]}
           onClick={onClick}
@@ -76,6 +77,7 @@ const Container = () => {
           <Routes>
             <Route path="article" element={<CreateArticle />}/>
             <Route path="article-table" element={<ArticleTable />}/>
+            <Route path="tag" element={<Tag />}/>
           </Routes>
         </Content>
       </Layout>

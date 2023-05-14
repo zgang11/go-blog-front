@@ -28,13 +28,15 @@ const CreateArticle = () => {
     const onFinish = async (values) => {
       await v1ArticleCreate(returnFormData({...values, status: true, md: values.html}))
       messageApi.success('创建成功')
+      form.resetFields()
     };
     
     const onReset = async () => {
       try {
         const values = await form.validateFields();
         await v1ArticleCreate(returnFormData({...values, status: false, md: values.html}))
-        messageApi.success('创建成功')
+        messageApi.success('保存成功')
+        form.resetFields()
       } catch (errorInfo) {
         console.log('Failed:', errorInfo);
       }

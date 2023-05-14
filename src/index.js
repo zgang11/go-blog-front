@@ -27,6 +27,10 @@ const router = createBrowserRouter([
         path: 'article-table',
         name: 'article-table'
       },
+      {
+        path: 'tag',
+        name: 'tag'
+      },
     ]
  },
  {
