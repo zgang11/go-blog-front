@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <Container/>,
     children:[
       {
-        path: 'article',
+        path: 'article/:id',
         name: 'article'
       },
       {

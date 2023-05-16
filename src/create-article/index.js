@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Select, message, Upload } from 'antd';
 import { v1CategoryAll } from '../api/category'
-import { v1ArticleCreate } from '../api/article';
+import { v1ArticleCreate, v1ArticleDetail, v1ArticleUpdate } from '../api/article';
 import { UploadOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useParams } from "react-router-dom";
+import { v1TagAll  } from '../api/tag'
 
 
 const CreateArticle = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [categoryList, setCategoryList] = useState([])
+    const [tagList, setTagList] = useState([])
     const [form] = Form.useForm();
+    const { id } = useParams();
 
     const init = async () => {
       const res = await v1CategoryAll()
       setCategoryList(res.categoryList)
+    }
+
+    const getArticleDetail = async () => {
+      if(id == '-1') return
+      const res = await v1ArticleDetail({articleId:id})
+      form.setFieldsValue({tags: res.articleDetail.tag_id, ...res.articleDetail})
+    }
+
+    const getTagList = async () => {
+      const res = await v1TagAll()
+      setTagList(res.articleList || [])
     }
 
     const returnFormData = (data) => {
@@ -26,9 +41,13 @@ const CreateArticle = () => {
     }
 
     const onFinish = async (values) => {
-      await v1ArticleCreate(returnFormData({...values, status: true, md: values.html}))
-      messageApi.success('创建成功')
-      form.resetFields()
+      if(id == '-1') {
+        await v1ArticleCreate(returnFormData({...values, status: true, md: values.html}))
+        messageApi.success('创建成功')
+      } else {
+        await v1ArticleUpdate(returnFormData({...values, status: true, md: values.html, id}))
+        messageApi.success('修改成功')
+      }
     };
     
     const onReset = async () => {
@@ -38,6 +57,8 @@ const CreateArticle = () => {
         messageApi.success('保存成功')
         form.resetFields()
       } catch (errorInfo) {
+        const values = await form.validateFields();
+        await v1ArticleCreate(returnFormData({...values, status: false, md: values.html}))
         console.log('Failed:', errorInfo);
       }
     }
@@ -48,6 +69,8 @@ const CreateArticle = () => {
 
     useEffect(() => {
       init()
+      getArticleDetail()
+      getTagList()
     }, [])
     
     const props = {
@@ -126,7 +149,9 @@ const CreateArticle = () => {
           },
         ]}
       >
-        <Input />
+        <Select mode="multiple">
+          {tagList.map((item) => <Select.Option value={item.id} key={item.id}>{item.tag_name}</Select.Option>)}
+        </Select>
       </Form.Item>
 
       <Form.Item

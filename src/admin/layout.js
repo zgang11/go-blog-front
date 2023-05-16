@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  UploadOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import './layout.css'
@@ -41,7 +41,7 @@ const Container = () => {
           defaultSelectedKeys={['1']}
           items={[
             {
-              key: 'article',
+              key: 'article/-1',
               icon: <UserOutlined />,
               label: '发布文章',
             },
@@ -75,7 +75,7 @@ const Container = () => {
           }}
         >
           <Routes>
-            <Route path="article" element={<CreateArticle />}/>
+            <Route path="article/:id" element={<CreateArticle />}/>
             <Route path="article-table" element={<ArticleTable />}/>
             <Route path="tag" element={<Tag />}/>
           </Routes>
