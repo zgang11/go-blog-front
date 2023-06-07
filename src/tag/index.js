@@ -113,7 +113,7 @@ const TagCom = () => {
         />
       ) : (
         <Tag onClick={showInput} style={tagPlusStyle}>
-          <PlusOutlined /> New Tag
+          <PlusOutlined /> 新增标签
         </Tag>
       )}
     </>

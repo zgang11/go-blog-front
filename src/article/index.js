@@ -20,9 +20,14 @@ const ArticleTable = () => {
       key: 'category_name',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (_, { status }) => (
+        <>
+          { status ? '已发布' : '草稿' }
+        </>
+      ),
     },
     {
       title: '标签',
