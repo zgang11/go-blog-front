@@ -15,6 +15,7 @@ const CreateArticle = () => {
     const [tagList, setTagList] = useState([])
     const [form] = Form.useForm();
     const { id } = useParams();
+    const [fileList, setFileList] = useState();
 
     const init = async () => {
       const res = await v1CategoryAll()
@@ -24,7 +25,8 @@ const CreateArticle = () => {
     const getArticleDetail = async () => {
       if(id == '-1') return
       const res = await v1ArticleDetail({articleId:id})
-      form.setFieldsValue({tags: res.articleDetail.tag_id, ...res.articleDetail})
+      form.setFieldsValue({ossUrl: res.articleDetail.cover_address, tags: res.articleDetail.tag_id, category: res.articleDetail.category_id, ...res.articleDetail})
+      setFileList([{url: res.articleDetail.cover_address, uid: -1, name: res.articleDetail.cover_address, status: 'done'}])
     }
 
     const getTagList = async () => {
@@ -51,15 +53,13 @@ const CreateArticle = () => {
     };
     
     const onReset = async () => {
-      try {
-        const values = await form.validateFields();
+      const values = form.getFieldsValue()
+      if(id == '-1') {
         await v1ArticleCreate(returnFormData({...values, status: false, md: values.html}))
-        messageApi.success('保存成功')
-        form.resetFields()
-      } catch (errorInfo) {
-        const values = await form.validateFields();
-        await v1ArticleCreate(returnFormData({...values, status: false, md: values.html}))
-        console.log('Failed:', errorInfo);
+        messageApi.success('创建成功')
+      } else {
+        await v1ArticleUpdate(returnFormData({...values, status: false, md: values.html, id}))
+        messageApi.success('修改成功')
       }
     }
 
@@ -164,7 +164,7 @@ const CreateArticle = () => {
           },
         ]}
       >
-        <Upload {...props}>
+        <Upload {...props} fileList={fileList}>
           <Button icon={<UploadOutlined />}>点击上传</Button>
         </Upload>
       </Form.Item>
