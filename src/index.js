@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     element: <Container/>,
     children:[
       {
+        path: 'links',
+        name: 'links',
+      },
+      {
         path: 'article/:id',
         name: 'article'
       },

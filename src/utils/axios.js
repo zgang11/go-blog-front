@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const { origin: baseURL } = window.location
+const { protocol, host } = window.location
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8081' : baseURL;
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8081' : `${protocol}//${host}:8081`;
 
 // 响应拦截器
 axios.interceptors.response.use(
