@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined
-} from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import './layout.css'
 import {
   Routes,
@@ -17,12 +10,12 @@ import CreateArticle from "../create-article"
 import ArticleTable from "../article"
 import Tag from "../tag"
 import LinkPage from '../link';
+import Home from '../home';
 
 const { Header, Sider, Content } = Layout;
 
 const Container = () => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -49,10 +42,12 @@ const Container = () => {
         }}
       >
         <Routes>
+          <Route path="/" element={<Home />}></Route>
           <Route path="article/:id" element={<CreateArticle />} />
           <Route path="article-table" element={<ArticleTable />} />
           <Route path="tag" element={<Tag />} />
           <Route path="links" element={<LinkPage />}></Route>
+          <Route path="create-link-page" element={<LinkPage />}></Route>
         </Routes>
       </Content>
     </Layout>

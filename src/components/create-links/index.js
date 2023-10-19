@@ -3,21 +3,21 @@ import { v1LinkCreate } from '../../api/link'
 import { Button, Card, Form, Input } from 'antd';
 import { returnFormData } from '../../utils/common'
 
-export default function CreateLinks({ onCancel, onAdd }) {
+export default function CreateLinks({ onAdd }) {
   const onFinish = async (values) => {
     const params = returnFormData(values)
     await v1LinkCreate(params)
     onAdd()
   };
   return (
-    <Card style={{ marginBottom: 24 }}>
+    <Card style={{ marginBottom: 24 }} title="ADD_LINK">
       <Form
         name="basic"
         labelCol={{
           span: 4,
         }}
         wrapperCol={{
-          span: 16,
+          span: 20,
         }}
         style={{
           maxWidth: 600,
@@ -29,16 +29,16 @@ export default function CreateLinks({ onCancel, onAdd }) {
         autoComplete="off"
       >
         <Form.Item
-          label="标题"
+          label="链接名"
           name="linkName"
           rules={[
             {
               required: true,
-              message: '输入标题',
+              message: '输入链接名',
             },
           ]}
         >
-          <Input />
+          <Input.TextArea autoSize={{minRows: 3}} />
         </Form.Item>
 
         <Form.Item
@@ -55,15 +55,11 @@ export default function CreateLinks({ onCancel, onAdd }) {
         </Form.Item>
         <Form.Item
           wrapperCol={{
-            offset: 14,
-            span: 9,
+            offset: 20,
           }}
         >
           <Button type="primary" htmlType="submit" style={{ marginRight: 10 }}>
             添加
-          </Button>
-          <Button onClick={onCancel}>
-            取消
           </Button>
         </Form.Item>
       </Form>
