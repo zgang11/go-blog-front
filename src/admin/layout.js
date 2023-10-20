@@ -46,8 +46,7 @@ const Container = () => {
           <Route path="article/:id" element={<CreateArticle />} />
           <Route path="article-table" element={<ArticleTable />} />
           <Route path="tag" element={<Tag />} />
-          <Route path="links" element={<LinkPage />}></Route>
-          <Route path="create-link-page" element={<LinkPage />}></Route>
+          <Route path="link" element={<LinkPage />}></Route>
         </Routes>
       </Content>
     </Layout>

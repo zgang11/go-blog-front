@@ -26,7 +26,7 @@ const Login = () => {
             type: 'success',
             content: res.message,
           })
-          navigate("/admin")
+          navigate("/")
         }
     }
 

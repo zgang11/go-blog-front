@@ -73,7 +73,7 @@ const LinkPage = () => {
   return (<>
     <Breadcrumb className='breadcrumb'>
       <Breadcrumb.Item>
-        <Typography.Link href='/admin'>主页</Typography.Link>
+        <Typography.Link href='/'>主页</Typography.Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>LINK_LIST</Breadcrumb.Item>
     </Breadcrumb>

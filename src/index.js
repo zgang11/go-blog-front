@@ -11,30 +11,30 @@ import Container from './admin/layout';
 import './utils/axios'
 
 const router = createBrowserRouter([
+  // {
+  //    path: '/',
+  //    element: <Login/>
+  // },
   {
-     path: '/',
-     element: <Login/>
-  },
-  {
-    path: 'admin',
+    path: '/',
     element: <Container/>,
     children:[
       {
-        path: 'links',
-        name: 'links',
+        path: 'link',
+        name: 'link',
       },
-      {
-        path: 'article/:id',
-        name: 'article'
-      },
-      {
-        path: 'article-table',
-        name: 'article-table'
-      },
-      {
-        path: 'tag',
-        name: 'tag'
-      },
+      // {
+      //   path: 'article/:id',
+      //   name: 'article'
+      // },
+      // {
+      //   path: 'article-table',
+      //   name: 'article-table'
+      // },
+      // {
+      //   path: 'tag',
+      //   name: 'tag'
+      // },
     ]
  },
  {

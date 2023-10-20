@@ -12,7 +12,7 @@ const gridStyle = {
 const Home = () => {
   const navigate = useNavigate();
   const goToLinks = () => {
-    navigate('/admin/links');
+    navigate('/link');
   }
 
   return (<>
