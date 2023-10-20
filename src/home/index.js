@@ -16,7 +16,7 @@ const Home = () => {
   }
 
   return (<>
-    <Card title="ZGANG_1">
+    <Card title="CARD_LIST">
       <Card.Grid onClick={() => goToLinks()} style={gridStyle}>
         <LinkOutlined />
         <span style={{ marginLeft: 8 }}>前端面经-LINK_LIST</span>

@@ -11,6 +11,8 @@ import ArticleTable from "../article"
 import Tag from "../tag"
 import LinkPage from '../link';
 import Home from '../home';
+import HTML_PNG from '../icons/html.png'
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,16 +30,21 @@ const Container = () => {
   return (
     <Layout className="site-layout">
       <Header style={{ paddingInline: 50, background: colorBgContainer, textAlign: 'left' }}>
-        {/* {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-          className: 'trigger',
-          onClick: () => setCollapsed(!collapsed),
-        })} */}
+        <div className='flex-space-between'>
+          <div className='flex-center'>
+            <img src={HTML_PNG} className='logo' />
+            <span>前端候选者</span>
+          </div>
+          <div>
+            < UserOutlined />
+          </div>
+        </div>
       </Header>
       <Content
         style={{
           margin: '24px 16px',
           padding: 24,
-          height: '100vh',
+          minHeight: 'calc(100vh - 112px)',
           background: colorBgContainer,
         }}
       >
