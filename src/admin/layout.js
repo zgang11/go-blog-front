@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, theme } from 'antd';
 import './layout.css'
 import {
@@ -13,10 +13,18 @@ import LinkPage from '../link';
 import Home from '../home';
 import HTML_PNG from '../icons/html.png'
 import { UserOutlined } from '@ant-design/icons';
+import { v1CategoryAll } from '../api/category';
 
 const { Header, Sider, Content } = Layout;
 
 const Container = () => {
+  const [categoryList, setCategoryList] = useState([])
+
+  const getCategoryList = async () => { 
+    const res = await v1CategoryAll()
+    setCategoryList(res.categoryList)
+  };
+
   const navigate = useNavigate();
   const {
     token: { colorBgContainer },
@@ -26,6 +34,10 @@ const Container = () => {
     console.log(e);
     navigate(`/admin/${e.key}`)
   };
+
+  useEffect(() => {
+    getCategoryList()
+  }, [])
 
   return (
     <Layout className="site-layout">
@@ -53,7 +65,7 @@ const Container = () => {
           <Route path="article/:id" element={<CreateArticle />} />
           <Route path="article-table" element={<ArticleTable />} />
           <Route path="tag" element={<Tag />} />
-          <Route path="link" element={<LinkPage />}></Route>
+          <Route path="link" element={<LinkPage categoryList={categoryList}/>}></Route>
         </Routes>
       </Content>
     </Layout>

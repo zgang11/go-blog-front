@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import { Table, Typography, Breadcrumb, Space, Col, Row } from 'antd';
-import { v1LinkAll, v1LinkDelete } from '../api/link'
-import CreateLinks from '../components/create-links'
-import moment from 'moment'
-import { useSearchParams  } from 'react-router-dom';
+import { v1LinkAll, v1LinkDelete } from '../api/link';
+import CreateLinks from '../components/create-links';
+import moment from 'moment';
+import { useSearchParams } from 'react-router-dom';
 
-const LinkPage = () => {
+const LinkPage = ({ categoryList }) => {
   const defaultColumns = [
     {
       title: '链接名',
       render: (row) => <Typography.Link href={row.url} target="_blank">{row.link_name}</Typography.Link>,
+    },
+    {
+      title: '公司',
+      render: (row) =>{ 
+        console.log(categoryList)
+        let category = categoryList.find(item => item.id === row.category_id)
+        return category ? category.category_name : '其它'
+      },
     },
     {
       title: '更新时间',
@@ -31,7 +39,7 @@ const LinkPage = () => {
     },
   ];
 
-  const [search,setSearch] = useSearchParams();
+  const [search, setSearch] = useSearchParams();
   const [isEditMode, setIsEditMode] = useState(false)
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -40,6 +48,7 @@ const LinkPage = () => {
     const res = await v1LinkAll()
     setData(res.linkList)
   }
+
   const handleAdd = () => {
     getData()
   };
@@ -51,7 +60,7 @@ const LinkPage = () => {
 
   const handleColumns = (istEdit) => {
     let list;
-    if(istEdit === 'true') {
+    if (istEdit === 'true') {
       list = defaultColumns
     } else {
       list = defaultColumns.filter(item => item.key !== 'action')
@@ -61,13 +70,16 @@ const LinkPage = () => {
 
   useEffect(() => {
     const istEdit = search.get('edit')
-    if(istEdit === 'true') {
+    if (istEdit === 'true') {
       setIsEditMode(true)
     } else {
       setIsEditMode(false)
     }
     handleColumns(istEdit)
-    getData()
+  }, [categoryList])
+
+  useEffect(() => {
+    getData();
   }, [])
 
   return (<>
