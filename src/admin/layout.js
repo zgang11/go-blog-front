@@ -11,18 +11,19 @@ import ArticleTable from "../article"
 import Tag from "../tag"
 import LinkPage from '../link';
 import Home from '../home';
+import Topic from '../topic'
 import HTML_PNG from '../icons/html.png'
 import { UserOutlined } from '@ant-design/icons';
-import { v1CategoryAll } from '../api/category';
+import { v1CompanyAll } from '../api/company';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 const Container = () => {
-  const [categoryList, setCategoryList] = useState([])
+  const [companyList, setCompanyList] = useState([])
 
   const getCategoryList = async () => { 
-    const res = await v1CategoryAll()
-    setCategoryList(res.categoryList)
+    const res = await v1CompanyAll()
+    setCompanyList(res.companyList)
   };
 
   const navigate = useNavigate();
@@ -65,7 +66,8 @@ const Container = () => {
           <Route path="article/:id" element={<CreateArticle />} />
           <Route path="article-table" element={<ArticleTable />} />
           <Route path="tag" element={<Tag />} />
-          <Route path="link" element={<LinkPage categoryList={categoryList}/>}></Route>
+          <Route path="link" element={<LinkPage companyList={companyList}/>}></Route>
+          <Route path="topic" element={<Topic/>}></Route>
         </Routes>
       </Content>
     </Layout>

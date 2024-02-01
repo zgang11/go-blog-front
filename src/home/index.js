@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 import { useNavigate } from "react-router-dom";
-import { LinkOutlined } from "@ant-design/icons"
+import { LinkOutlined, CodeSandboxOutlined } from "@ant-design/icons"
 
 
 const gridStyle = {
@@ -14,12 +14,19 @@ const Home = () => {
   const goToLinks = () => {
     navigate('/link');
   }
+  const goToTopics = () => {
+    navigate('topic')
+  }
 
   return (<>
-    <Card title="CARD_LIST">
+    <Card title="面试模块">
       <Card.Grid onClick={() => goToLinks()} style={gridStyle}>
         <LinkOutlined />
-        <span style={{ marginLeft: 8 }}>前端面经-LINK_LIST</span>
+        <span style={{ marginLeft: 8 }}>前端面经</span>
+      </Card.Grid>
+      <Card.Grid onClick={() => goToTopics()} style={gridStyle}>
+        <CodeSandboxOutlined />
+        <span style={{ marginLeft: 8 }}>算法题</span>
       </Card.Grid>
     </Card>
   </>)

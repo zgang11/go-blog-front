@@ -2,27 +2,41 @@ import React, { useEffect, useState } from "react";
 import { v1LinkCreate } from '../../api/link'
 import { Button, Card, Form, Input, Select } from 'antd';
 import { returnFormData } from '../../utils/common';
-import { v1CategoryAll } from '../../api/category';
+import { v1CompanyAll } from '../../api/company';
+import DebounceSelect from '../../components/debounce-select';
+import { v1TopicAll } from '../../api/topic'
 
 export default function CreateLinks({ onAdd }) {
   const [categoryList, setCategoryList] = useState([])
+  const [value, setValue] = useState([]);
 
   const onFinish = async (values) => {
-    const params = returnFormData(values)
+    const values_ = {
+      companyId: values.companyId,
+      linkName: values.linkName,
+      url: values.url,
+      topicIds: values.topics.map(item => item.value).join(",")
+    }
+    const params = returnFormData(values_)
     await v1LinkCreate(params)
     onAdd()
   };
 
   const getCategoryList = async () => { 
-    const res = await v1CategoryAll()
-    setCategoryList(res.categoryList)
+    const res = await v1CompanyAll()
+    setCategoryList(res.companyList)
   };
+
+  const fetchUserList = async (keyword) => {
+    let res = await v1TopicAll({ keyword })
+    return res.topicList.map(item => ({...item, label: `${item.serial_number}.${item.topic_name}`, value: item.ID}))
+  }
 
   useEffect(() => {
     getCategoryList();
   }, [])
   return (
-    <Card style={{ marginBottom: 24 }} title="ADD_LINK">
+    <Card style={{ marginBottom: 24 }} title="添加面经">
       <Form
         name="basic"
         labelCol={{
@@ -67,7 +81,7 @@ export default function CreateLinks({ onAdd }) {
         </Form.Item>
         <Form.Item
           label="所属公司"
-          name="categoryid"
+          name="companyId"
           rules={[
             {
               required: true,
@@ -76,8 +90,26 @@ export default function CreateLinks({ onAdd }) {
           ]}
         >
           <Select>
-            { categoryList.map((item) => (<Select.Option value={item.id} key={item.id}>{item.category_name}</Select.Option>))}
+            { categoryList.map((item) => (<Select.Option value={item.id} key={item.id}>{item.link_name}</Select.Option>))}
         </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="算法题"
+          name="topics"
+        >
+           <DebounceSelect
+            mode="multiple"
+            value={value}
+            placeholder="搜索名称或编号"
+            fetchOptions={fetchUserList}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
         <Form.Item
           wrapperCol={{

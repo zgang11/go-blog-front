@@ -1,39 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import { Table, Typography, Breadcrumb, Space, Col, Row, Tag } from 'antd';
-import { v1LinkAll, v1LinkDelete } from '../api/link';
-import CreateLinks from '../components/create-links';
+import { Table, Typography, Breadcrumb, Space, Col, Row } from 'antd';
+import { v1TopicAll, v1TopicDelete } from '../api/topic';
+import CreateTopics from '../components/create-topics';
 import moment from 'moment';
 import { useSearchParams } from 'react-router-dom';
 
-const LinkPage = ({ companyList }) => {
+const Topic = ({ categoryList }) => {
   const defaultColumns = [
     {
-      title: '链接名',
-      render: (row) => <Typography.Link href={row.url} target="_blank">{row.link_name}</Typography.Link>,
-    },
-    {
-      title: '算法题',
-      render: (_, { Topics }) => (
-        <>
-          {Topics.map((topic) => {
-            return (
-              <Typography.Link href={topic.url} target="_blank" key={topic.ID}>
-                <Tag >
-                  {topic.serial_number}.{topic.topic_name}
-                </Tag>
-              </Typography.Link>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: '公司',
-      render: (row) =>{ 
-        let category = companyList.find(item => item.id === row.company_id)
-        return category ? category.link_name : '其它'
-      },
+      title: '题目',
+      render: (row) => <Typography.Link href={row.url} target="_blank">{row.serial_number}.{row.topic_name}</Typography.Link>,
     },
     {
       title: '更新时间',
@@ -60,8 +37,8 @@ const LinkPage = ({ companyList }) => {
   const [columns, setColumns] = useState([]);
 
   const getData = async () => {
-    const res = await v1LinkAll()
-    setData(res.linkList)
+    const res = await v1TopicAll()
+    setData(res.topicList)
   }
 
   const handleAdd = () => {
@@ -69,7 +46,7 @@ const LinkPage = ({ companyList }) => {
   };
   const handleDelete = async (record) => {
     const params = { id: record.ID }
-    await v1LinkDelete(params)
+    await v1TopicDelete(params)
     getData()
   }
 
@@ -91,7 +68,7 @@ const LinkPage = ({ companyList }) => {
       setIsEditMode(false)
     }
     handleColumns(istEdit)
-  }, [companyList])
+  }, [categoryList])
 
   useEffect(() => {
     getData();
@@ -102,7 +79,7 @@ const LinkPage = ({ companyList }) => {
       <Breadcrumb.Item>
         <Typography.Link href='/'>主页</Typography.Link>
       </Breadcrumb.Item>
-      <Breadcrumb.Item>面经</Breadcrumb.Item>
+      <Breadcrumb.Item>题库</Breadcrumb.Item>
     </Breadcrumb>
     <Row gutter={16}>
       <Col span={isEditMode ? 18 : 24}>
@@ -114,11 +91,11 @@ const LinkPage = ({ companyList }) => {
         />
       </Col>
       {isEditMode ? <Col span={6}>
-        <CreateLinks onAdd={handleAdd} />
+        <CreateTopics onAdd={handleAdd} />
       </Col> : null}
     </Row>
 
   </>);
 }
 
-export default LinkPage;
+export default Topic;
